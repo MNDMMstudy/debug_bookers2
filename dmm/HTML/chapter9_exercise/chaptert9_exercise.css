@@ -11,14 +11,6 @@ header{
   background-color: #FF9A4B;
 }
 
-.position{
-  position: absolute;
-  font-size: 20px;
-  top: 10px;
-  right: 40px;
-}
-
-
 
 .step-box{
   margin: 50px auto;
@@ -75,4 +67,19 @@ header{
 footer{
   background-color: #AAAAAA;
   height: 50px;
+}
+
+@media screen and (max-width: 768px){
+  .step-box{
+    width: 100%;
+    display: block;
+  }
+  .step{
+    width: 90%;
+    margin: 0 auto 20px;
+  }
+  .step:last-child{
+    margin-right: 30px;
+    margin-bottom: 0;
+}
 }
