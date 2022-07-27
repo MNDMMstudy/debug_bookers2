@@ -25,12 +25,60 @@
           </td>
           <td><%= link_to @books.title, @books %></td>
           <td><%= @books.body %></td>
+          <td><% if @books.favorited_by?(current_user) %>
+            <p>
+              <%= link_to book_favorites_path(@books), method: :delete do %>
+                ❤<%= @books.favorites.count %>
+              <% end %>
+            </p>
+            <% else %>
+            <p>
+              <%= link_to book_favorites_path(@books), method: :post do %>
+                ♡<%= @books.favorites.count %>
+              <% end %>
+            </p>
+            <% end %>
+          </td>
+          <td>
+            <p>コメント件数： <%= @books.post_comments.count %></p>
+          </td>
           <% if @books.user == current_user %>
             <td><%= link_to 'Edit', edit_book_path(@books), class: "btn btn-sm btn-success" %></td>
             <td><%= link_to "Destroy", book_path(@books), method: :delete, "data-confirm" => "本当に消しますか？" ,class:"btn btn-danger" %></td>
             <% end %>
         </tr>
       </table>
+      <table class="table">
+        <tbody>
+          <% @books.post_comments.each do |post_comment| %>
+            <tr>
+              <td><%= link_to(post_comment.user) do %>
+                <%= image_tag post_comment.user.get_profile_image, size:'100x100' %><br>
+                <%= post_comment.user.name %>
+                <% end %>
+              </td>
+              <td>
+              <%= post_comment.created_at.strftime('%Y/%m/%d') %>
+              </td>
+              <td>
+                <%= post_comment.comment %>
+              </td>
+              <% if post_comment.user == current_user %>
+                <td>
+                  <%= link_to "Destroy", book_post_comment_path(post_comment.id), method: :delete, "data-confirm" => "本当に消しますか？" ,class:"btn btn-danger" %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div>
+        <%= form_with model: [@books, @post_comment] do |f| %>
+          <%= f.text_area :comment %>
+          <%= f.submit "送信" %>
+        <% end %>
+      </div>
+
     </div>
   </div>
 </div>
