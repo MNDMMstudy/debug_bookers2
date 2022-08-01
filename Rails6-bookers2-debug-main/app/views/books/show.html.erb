@@ -31,44 +31,22 @@
             </div>
           </td>
           <td>
-            <p>コメント件数： <%= @books.post_comments.count %></p>
+           <div id="post_comment_count_<%= @books.id %>" >
+              <%= render 'post_comments/count', books: @books %>
+           </div>
           </td>
           <% if @books.user == current_user %>
-            <td><%= link_to 'Edit', edit_book_path(@books), class: "btn btn-sm btn-success" %></td>
-            <td><%= link_to "Destroy", book_path(@books), method: :delete, "data-confirm" => "本当に消しますか？" ,class:"btn btn-danger" %></td>
+            <td><%= link_to 'Edit', edit_book_path(@books),  remote: true, class: "btn btn-sm btn-success" %></td>
+            <td><%= link_to "Destroy", book_path(@books), method: :delete,  remote: true, "data-confirm" => "本当に消しますか？" ,class:"btn btn-danger" %></td>
             <% end %>
         </tr>
       </table>
-      <table class="table">
-        <tbody>
-          <% @books.post_comments.each do |post_comment| %>
-            <tr>
-              <td><%= link_to(post_comment.user) do %>
-                <%= image_tag post_comment.user.get_profile_image, size:'100x100' %><br>
-                <%= post_comment.user.name %>
-                <% end %>
-              </td>
-              <td>
-              <%= post_comment.created_at.strftime('%Y/%m/%d') %>
-              </td>
-              <td>
-                <%= post_comment.comment %>
-              </td>
-              <% if post_comment.user == current_user %>
-                <td>
-                  <%= link_to "Destroy", book_post_comment_path(post_comment.id), method: :delete, "data-confirm" => "本当に消しますか？" ,class:"btn btn-danger" %>
-                </td>
-              <% end %>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <div>
-        <%= form_with model: [@books, @post_comment] do |f| %>
-          <%= f.text_area :comment %>
-          <%= f.submit "送信" %>
-        <% end %>
-      </div>
+     <div id="post_comment_index_<%= @books.id %>" >
+        <%= render 'post_comments/index', books: @books %>
+     </div>
+     <div id="post_comment_form_<%= @books.id %>" >
+        <%= render 'post_comments/form', books: @books, post_comment: @post_comment %>
+     </div>
 
     </div>
   </div>

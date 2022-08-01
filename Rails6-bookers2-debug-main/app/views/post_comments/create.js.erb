@@ -1,0 +1,2 @@
+$("#post_comment_index_<%= @books.id %>").html("<%= j(render 'post_comments/index', books: @books) %>")
+$("#post_comment_form_<%= @books.id %>").html("<%= j(render 'post_comments/form', books: @books, post_comment: @post_comment) %>")
